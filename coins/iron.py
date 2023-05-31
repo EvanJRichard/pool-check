@@ -2,14 +2,19 @@ import asyncio
 from coins import encode, decode, save_work
 import time
 
+MAX_RETRIES = 5  # maximum number of reconnection attempts
 
-async def connect(pool):
+async def connect(pool, retries=0):
     host, port = pool.split(':')
     try:
         reader, writer = await asyncio.open_connection(host, port)
     except Exception as ex:
         print(f'{pool}\t{ex}')
-        await connect(pool)
+        if retries < MAX_RETRIES:
+            await asyncio.sleep(1)  # wait for a while before retrying
+            await connect(pool, retries + 1)
+        else:
+            print(f"Failed to connect to {pool} after {MAX_RETRIES} attempts")
         return
     writer.write(encode(
         {"id": 0, "method": "mining.subscribe",
