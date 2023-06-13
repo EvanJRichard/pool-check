@@ -2,7 +2,7 @@ import asyncio
 from coins import encode, decode, save_work
 import time
 
-MAX_RETRIES = 5  # maximum number of reconnection attempts
+MAX_RETRIES = 10  # maximum number of reconnection attempts
 
 async def connect(pool, retries=0):
     host, port = pool.split(':')
