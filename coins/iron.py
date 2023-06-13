@@ -40,8 +40,11 @@ async def connect(pool, retries=0):
         else:
             print(f"Failed to connect to {pool} after {MAX_RETRIES} attempts")
     finally:
-        if writer:
-            writer.close()  # ensure to close the writer
-            await writer.wait_closed()  # wait for the writer to close
+        try: 
+            if writer:
+                writer.close()  # ensure to close the writer
+                await writer.wait_closed()  # wait for the writer to close
+        except ConnectionResetError as ex:
+            pass # if connection is reset, it's already closed
     print(f'Reconnecting to {pool}')
     await connect(pool)
