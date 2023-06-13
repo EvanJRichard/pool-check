@@ -8,8 +8,8 @@ import sys
 async def main():
     coin = sys.argv[1]
     work_location = sys.argv[2]
-    config_path = pathlib.Path('config').joinpath(f'{coin}.json')
-    config_path = work_location + config_path
+    config_path = work_location + 'config'
+    config_path = pathlib.Path(config_path).joinpath(f'{coin}.json')
     with open(config_path, 'r') as config_file:
         config = json.load(config_file)
 
@@ -19,7 +19,7 @@ async def main():
         print(f'{coin} not supported')
         exit(-1)
 
-    result_path = work_location + pathlib.Path('res')
+    result_path = work_location + 'res'
     pathlib.Path(result_path).mkdir(exist_ok=True)
     connect = getattr(module, 'connect')
 
