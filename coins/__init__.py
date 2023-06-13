@@ -2,6 +2,7 @@ from collections import defaultdict, deque
 import pathlib
 import subprocess
 import aiofiles
+import json
 
 history = defaultdict(dict)  # height -> pool -> timestamp
 best = {}  # height -> timestamp
