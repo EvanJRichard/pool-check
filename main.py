@@ -7,8 +7,9 @@ import sys
 
 async def main():
     coin = sys.argv[1]
+    work_location = sys.argv[2]
     config_path = pathlib.Path('config').joinpath(f'{coin}.json')
-
+    config_path = work_location + config_path
     with open(config_path, 'r') as config_file:
         config = json.load(config_file)
 
@@ -18,7 +19,8 @@ async def main():
         print(f'{coin} not supported')
         exit(-1)
 
-    pathlib.Path('res').mkdir(exist_ok=True)
+    result_path = work_location + pathlib.Path('res')
+    pathlib.Path(result_path).mkdir(exist_ok=True)
     connect = getattr(module, 'connect')
 
     async with asyncio.TaskGroup() as tg:
