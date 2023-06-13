@@ -21,9 +21,9 @@ async def save_work(coin, pool, height, timestamp, block_time):
     block_time_pct = 100 * avg_diff_ms / block_time_ms  # calculate percentage with moving average
     influx_cmd = f"influx write -b ironfish-mining-mainnet \"{avg_diff_ms},pool={pool} timestamp={timestamp}i,diff_from_best={diff_ms}i,height={height}i\""
     subprocess.run(influx_cmd, shell=True)
-    res_path = pathlib.Path('res').joinpath(f'{coin}.csv')
-    async with aiofiles.open(res_path, mode='a') as f:
-        await f.write(f'{height},{pool},{timestamp},{diff_ms},{block_time_pct:.2f}%\n')
+    # res_path = pathlib.Path('res').joinpath(f'{coin}.csv')
+   # async with aiofiles.open(res_path, mode='a') as f:
+    #    await f.write(f'{height},{pool},{timestamp},{diff_ms},{block_time_pct:.2f}%\n')
 
 def encode(data):
     return (json.dumps(data) + '\n').encode('utf-8')
