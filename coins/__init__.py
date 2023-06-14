@@ -20,8 +20,6 @@ async def save_work(coin, pool, height, timestamp, block_time, local_save_dest="
     block_time_ms = block_time * 1000
     block_time_pct = 100 * avg_diff_ms / block_time_ms  # calculate percentage with moving average
     influx_cmd = f"influx write -b ironfish-mining-mainnet \"mining_latency_data,pool={pool} avg_diff_ms={avg_diff_ms},diff_from_best={diff_ms}i,height={height}i {timestamp}\""
-    # influx_cmd = f"influx write -b ironfish-mining-mainnet 'mining_latency_data_test,pool={pool} avg_diff_ms={avg_diff_ms},diff_from_best={diff_ms}i,height={height}i {timestamp}'"
-    print(influx_cmd)
     subprocess.run(influx_cmd, shell=True)
     local_save_dest = local_save_dest if local_save_dest else "res/"
     res_path = pathlib.Path("/home/ubuntu/pool-check-evan/pool-check/res").joinpath(f'{coin}.csv')
